@@ -1,11 +1,12 @@
 // functionality that I have so far:
 // - The app should display a predetermined amount of questions pulled from the Open Trivia API
 // - The correct answer should be indistinguishable from incorrect answers
+// - Users should be able to select an answer for each question
+// - After selecting an answer, there should be some sort of visual feedback to display whether the selected answer was right or wrong
 
 // functionality that I need to implement:
-// - Users should be able to select an answer for each question
 // - The user should not be able to change their answer
-// - After selecting an answer, there should be some sort of visual feedback to display whether the selected answer was right or wrong
+
 
 
 import React, { useState, useEffect } from "react";
@@ -42,19 +43,6 @@ export default function App() {
     return array;
   }
 
-  // have a function that deals with answering questions here?
-
-  function submitAnswer(answer, correct){
-    let result = "";
-    if (answer === correct){
-      //result = "Correct!";
-      alert("Correct");
-    } else {
-      //result = "Incorrect...";
-      alert("Incorrect");
-    }
-  }
-
   // prints out a question
   function printQuestions(question){
     // create array of possible answers to the question
@@ -75,6 +63,7 @@ export default function App() {
           onClick = {() =>
             {if (answer == question.correct_answer){
               alert("Correct!");
+
               } else {
                 alert("Incorrect!");
                 }
