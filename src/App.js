@@ -12,7 +12,7 @@ import React, { useState, useEffect } from "react";
 
 export default function App() {
   const [questions, setQuestions] = useState([]);
-  //const [allAnswers, setAnswers] = useState([]);
+  
   useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=10")
       .then((res) => res.json())
@@ -22,6 +22,7 @@ export default function App() {
       });
   }, []);
 
+  // shuffles an array -- used to randomize order of possible answers
   function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
   
@@ -41,21 +42,49 @@ export default function App() {
     return array;
   }
 
+  // have a function that deals with answering questions here?
+
+  function submitAnswer(answer, correct){
+    let result = "";
+    if (answer === correct){
+      //result = "Correct!";
+      alert("Correct");
+    } else {
+      //result = "Incorrect...";
+      alert("Incorrect");
+    }
+  }
+
+  // prints out a question
   function printQuestions(question){
+    // create array of possible answers to the question
     let answers = [];
     answers.push(question.correct_answer);
     answers = [...question.incorrect_answers, answers];
-    answers = shuffle(answers);
+    answers = shuffle(answers); // shuffle order of answers
 
     
-    
+    //{submitAnswer(answer, question.correct_answer)}
     return(
       <div>
         {question.question}
         <br/>
         {answers.map((answer) => (
-          <button>{answer}</button>        
+          <button
+          disabled = {false} // work on later, this disables the buttons
+          onClick = {() =>
+            {if (answer == question.correct_answer){
+              alert("Correct!");
+              } else {
+                alert("Incorrect!");
+                }
+            }
+            
+            }> 
+            {answer}
+          </button>        
         ))}
+        
       </div>
     );
   }
