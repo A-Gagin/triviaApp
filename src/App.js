@@ -6,6 +6,7 @@
 
 // functionality that I need to implement:
 // - The user should not be able to change their answer
+  // Progress on this! but now answering one question disables the buttons for all questions, need to figure out where to reset the state
 
 
 
@@ -13,6 +14,8 @@ import React, { useState, useEffect } from "react";
 
 export default function App() {
   const [questions, setQuestions] = useState([]);
+  const [isQuestionDisabled, setDisabled] = useState(false);
+
   
   useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=10")
@@ -27,14 +30,14 @@ export default function App() {
   function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
   
-    // While there remain elements to shuffle...
+    // while there remain elements to shuffle
     while (0 !== currentIndex) {
   
-      // Pick a remaining element...
+      // pick a random remaining element
       randomIndex = Math.floor(Math.random() * currentIndex);
       currentIndex -= 1;
   
-      // And swap it with the current element.
+      // and swap it with the current element
       temporaryValue = array[currentIndex];
       array[currentIndex] = array[randomIndex];
       array[randomIndex] = temporaryValue;
@@ -44,33 +47,42 @@ export default function App() {
   }
 
   // prints out a question
-  function printQuestions(question){
+  function createQuestions(question){
     // create array of possible answers to the question
     let answers = [];
     answers.push(question.correct_answer);
     answers = [...question.incorrect_answers, answers];
     answers = shuffle(answers); // shuffle order of answers
+    //setDisabled(false) causes a rendering error if included
 
-    
-    //{submitAnswer(answer, question.correct_answer)}
     return(
       <div>
-        {question.question}
-        <br/>
+        {/* Print out the current question */}
+        <p>{question.question}</p>
+        
+
+        {/* Map through answers, create buttons for each one */}
         {answers.map((answer) => (
           <button
-          disabled = {false} // work on later, this disables the buttons
+          disabled = {isQuestionDisabled} // this disables the buttons
+
+          // Handle correct/incorrect answers and visual feedback
           onClick = {() =>
+            // eslint-disable-next-line
             {if (answer == question.correct_answer){
               alert("Correct!");
+              setDisabled(true);
 
               } else {
                 alert("Incorrect!");
+                setDisabled(true);
                 }
-            }
+              }
             
             }> 
-            {answer}
+
+            {/* Answer label for each button */}
+            {answer} 
           </button>        
         ))}
         
@@ -80,9 +92,10 @@ export default function App() {
 
   return (
     <div>
-      <h1>Hey, Launch! 👋</h1>
+      <h1>Hey, Launch! 👋 Time for some trivia!</h1>
+      {/* Map through the list of questions, render a question on the page for each one */}
       {questions.map((question) => (
-        <h1>{printQuestions(question)}</h1>
+        <h1>{createQuestions(question)}</h1>
       ))}
       
     </div>
