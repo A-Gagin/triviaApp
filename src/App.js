@@ -3,18 +3,20 @@
 // - The correct answer should be indistinguishable from incorrect answers
 // - Users should be able to select an answer for each question
 // - After selecting an answer, there should be some sort of visual feedback to display whether the selected answer was right or wrong
+// - The user should not be able to change their answer
 
 // functionality that I need to implement:
-// - The user should not be able to change their answer
-  // Progress on this! but now answering one question disables the buttons for all questions, need to figure out where to reset the state
+// - All required functionality implemented!
+// - Perhaps improve how it looks with material-ui?
 
 
 
 import React, { useState, useEffect } from "react";
+import Questions from "./Questions";
 
 export default function App() {
-  const [questions, setQuestions] = useState([]);
-  const [isQuestionDisabled, setDisabled] = useState(false);
+  const [questions, setQuestions] = useState([]); // array -- holds questions
+  
 
   
   useEffect(() => {
@@ -27,75 +29,81 @@ export default function App() {
   }, []);
 
   // shuffles an array -- used to randomize order of possible answers
-  function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+  // function shuffle(array) {
+  //   var currentIndex = array.length, temporaryValue, randomIndex;
   
-    // while there remain elements to shuffle
-    while (0 !== currentIndex) {
+  //   // while there remain elements to shuffle
+  //   while (0 !== currentIndex) {
   
-      // pick a random remaining element
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
+  //     // pick a random remaining element
+  //     randomIndex = Math.floor(Math.random() * currentIndex);
+  //     currentIndex -= 1;
   
-      // and swap it with the current element
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
+  //     // and swap it with the current element
+  //     temporaryValue = array[currentIndex];
+  //     array[currentIndex] = array[randomIndex];
+  //     array[randomIndex] = temporaryValue;
+  //   }
   
-    return array;
-  }
+  //   return array;
+  // }
 
   // prints out a question
-  function createQuestions(question){
-    // create array of possible answers to the question
-    let answers = [];
-    answers.push(question.correct_answer);
-    answers = [...question.incorrect_answers, answers];
-    answers = shuffle(answers); // shuffle order of answers
-    //setDisabled(false) causes a rendering error if included
+  // function createQuestions(question){
+  //   const [isQuestionDisabled, setDisabled] = useState(false); // boolean -- determines if a button is disabled
+  //   const [questionColor, setColor] = useState("black"); // string -- determines what color a question's text is
+  //   // create array of possible answers to the question
+  //   let answers = [];
+  //   answers.push(question.correct_answer);
+  //   answers = [...question.incorrect_answers, answers];
 
-    return(
-      <div>
-        {/* Print out the current question */}
-        <p>{question.question}</p>
+  //   // shuffle order of answers
+  //   answers = shuffle(answers);
+  //   //setDisabled(false) causes a rendering error if included
+
+  //   return(
+  //     <div>
+  //       {/* Print out the current question */}
+  //       <p style = {{color: questionColor}}>{question.question}</p>
         
 
-        {/* Map through answers, create buttons for each one */}
-        {answers.map((answer) => (
-          <button
-          disabled = {isQuestionDisabled} // this disables the buttons
+  //       {/* Map through answers, create buttons for each one */}
+  //       {answers.map((answer) => (
+  //         <button
+  //         disabled = {isQuestionDisabled} // this disables the buttons
 
-          // Handle correct/incorrect answers and visual feedback
-          onClick = {() =>
-            // eslint-disable-next-line
-            {if (answer == question.correct_answer){
-              alert("Correct!");
-              setDisabled(true);
+  //         // Handle correct/incorrect answers and visual feedback
+  //         onClick = {() =>
+  //           // eslint-disable-next-line
+  //           {if (answer == question.correct_answer){
+  //             alert("Correct!");
+  //             setDisabled(true); // need to find a place to reset this to false?
+  //             setColor("green"); // need to find a place to reset this to black?
 
-              } else {
-                alert("Incorrect!");
-                setDisabled(true);
-                }
-              }
+  //             } else {
+  //               alert("Incorrect!");
+  //               setDisabled(true); // need to find a place to reset this to false?
+  //               setColor("red"); // need to find a place to reset this to black?
+  //               }
+  //             }
             
-            }> 
+  //           }> 
 
-            {/* Answer label for each button */}
-            {answer} 
-          </button>        
-        ))}
+  //           {/* Answer label for each button */}
+  //           {answer} 
+  //         </button>        
+  //       ))}
         
-      </div>
-    );
-  }
+  //     </div>
+  //   );
+  // }
 
   return (
     <div>
       <h1>Hey, Launch! 👋 Time for some trivia!</h1>
       {/* Map through the list of questions, render a question on the page for each one */}
       {questions.map((question) => (
-        <h1>{createQuestions(question)}</h1>
+        <h1><Questions question = {question} ></Questions></h1> // render each question
       ))}
       
     </div>
