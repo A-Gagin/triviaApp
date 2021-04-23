@@ -43,8 +43,7 @@ export default function Questions({ question }) {
                     disabled={isQuestionDisabled} // this disables the buttons
 
                     // Handle correct/incorrect answers and visual feedback
-                    onClick={() =>
-                    {
+                    onClick={() => {
                         // eslint-disable-next-line
                         if (answer == question.correct_answer) {
                             alert("Correct!");
@@ -68,4 +67,3 @@ export default function Questions({ question }) {
         </div>
     );
 }
-
