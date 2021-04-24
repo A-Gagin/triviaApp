@@ -4,10 +4,11 @@
 // - Users should be able to select an answer for each question
 // - After selecting an answer, there should be some sort of visual feedback to display whether the selected answer was right or wrong
 // - The user should not be able to change their answer
+// - Made pretty with material ui!
 
 // functionality that I need to implement:
 // - All required functionality implemented!
-// - Perhaps improve how it looks with material-ui?
+
 
 
 
@@ -27,8 +28,12 @@ export default function App() {
   }, []);
 
   return (
-    <div>
-      <h1>Hey, Launch! 👋 Time for some trivia!</h1>
+    <div style = {{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "darkgray"}}>
+      <div style = {{display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", backgroundColor: "lightgray", borderRadius:"10px", border: "8px solid", borderColor: "lightgray"}}>
+        <h1>Hey, Launch! 👋 Time for some trivia!</h1>
+        <h4>Coded by Angela Gagin (afg4pr)</h4>
+      </div>
+      <br></br>
       {/* Map through the list of questions, render a question on the page for each one */}
       {questions.map((question) => (
         <h1><Questions question={question} ></Questions></h1> // render each question

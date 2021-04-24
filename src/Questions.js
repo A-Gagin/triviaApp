@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Button from '@material-ui/core/Button';
+import ButtonGroup from '@material-ui/core/ButtonGroup'
 
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -22,6 +24,8 @@ function shuffle(array) {
 export default function Questions({ question }) {
     const [isQuestionDisabled, setDisabled] = useState(false); // boolean -- determines if a button is disabled
     const [questionColor, setColor] = useState("black"); // string -- determines what color a question's text is
+    const [bgColor, setBGColor] = useState("lightgray"); // string -- determines question background color
+
     // create array of possible answers to the question
     let answers = [];
     answers.push(question.correct_answer);
@@ -32,38 +36,48 @@ export default function Questions({ question }) {
 
 
     return (
-        <div>
+        <div style = {{backgroundColor: bgColor, borderRadius: "10px", border: "8px solid", borderColor: bgColor, maxWidth: "700px", minWidth: "700px"}}>
             {/* Print out the current question */}
-            <p style={{ color: questionColor }}>{question.question}</p>
+            <h6 style={{
+                color: questionColor,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center" }}>
+                    {question.question}
+            </h6>
 
+            <ButtonGroup color="primary" aria-label="contained primary button group" fullWidth = "true" size = "large">
+                {/* Map through answers, create buttons for each one */}
+                {answers.map((answer) => (
+                    <Button
+                        variant="contained" color="primary"
+                        disabled={isQuestionDisabled} // this disables the buttons
+                        style={{ display: "flex", flexDirection: "row", justifyContent: "center", alignItems: "center" }}
 
-            {/* Map through answers, create buttons for each one */}
-            {answers.map((answer) => (
-                <button
-                    disabled={isQuestionDisabled} // this disables the buttons
+                        // Handle correct/incorrect answers and visual feedback
+                        onClick={() => {
+                            // eslint-disable-next-line
+                            if (answer == question.correct_answer) {
+                                setDisabled(true);
+                                setColor("green");
+                                setBGColor("lightgreen");
 
-                    // Handle correct/incorrect answers and visual feedback
-                    onClick={() => {
-                        // eslint-disable-next-line
-                        if (answer == question.correct_answer) {
-                            alert("Correct!");
-                            setDisabled(true); // need to find a place to reset this to false?
-                            setColor("green"); // need to find a place to reset this to black?
-
-                        } else {
-                            alert("Incorrect!");
-                            setDisabled(true); // need to find a place to reset this to false?
-                            setColor("red"); // need to find a place to reset this to black?
+                            } else {
+                                setDisabled(true);
+                                setColor("red");
+                                setBGColor("pink");
+                            }
                         }
-                    }
 
-                    }>
+                        }>
 
-                    {/* Answer label for each button */}
-                    {answer}
-                </button>
-            ))}
+                        {/* Answer label for each button */}
+                        {answer}
+                    </Button>
 
+                ))}
+            </ButtonGroup>
         </div>
     );
 }
