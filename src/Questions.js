@@ -35,6 +35,7 @@ export default function Questions({ question }) {
     // shuffle order of answers
     answers = shuffle(answers);
     question.question = he.decode(question.question);
+
     // answers.map((answer) => (
     //     answer = he.decode(answer)
     // ))
