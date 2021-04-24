@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Button from '@material-ui/core/Button';
 import ButtonGroup from '@material-ui/core/ButtonGroup'
+import he from "he";
 
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
@@ -33,6 +34,10 @@ export default function Questions({ question }) {
 
     // shuffle order of answers
     answers = shuffle(answers);
+    question.question = he.decode(question.question);
+    // answers.map((answer) => (
+    //     answer = he.decode(answer)
+    // ))
 
 
     return (
